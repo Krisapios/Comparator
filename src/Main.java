@@ -1,6 +1,7 @@
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class Main {
     public static void main(String[] args) {
@@ -12,8 +13,22 @@ public class Main {
         people.add(new Person("Коля", "Крот Енот", 10));
         people.add(new Person("Гена", "Букин", 5));
 
-        Collections.sort(people, new PersonComparator());
+        Predicate<Person> predicate = person -> person.getAge() < 18;
+        people.removeIf(predicate);
+
+        Comparator<Person> comparator = (person1, person2) -> {
+            if (person1.getSurname().split(" ").length < person2.getSurname().split(" ").length) {
+                return 1;
+            } else if (person1.getSurname().split(" ").length > person2.getSurname().split(" ").length) {
+                return -1;
+            } else
+                return Integer.compare(person2.getAge(), person1.getAge());
+        };
+        people.sort(comparator);
         System.out.println(people);
 
+
+
     }
+
 }
